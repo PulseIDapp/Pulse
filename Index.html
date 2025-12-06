@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse ID – La App Exclusiva de 2026</title>
+    <meta name="description" content="App exclusiva española para 2026. Acceso limitado – únete ahora y no te quedes fuera.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@400;600&display=swap');
+        body { margin: 0; padding: 0; background: #f0f8ff; color: #333; font-family: 'Montserrat', sans-serif; text-align: center; overflow-x: hidden; }
+        header { padding: 80px 20px; background: linear-gradient(to bottom, #f0f8ff, #add8e6); }
+        .logo { width: 420px; max-width: 92%; margin: 20px auto; filter: drop-shadow(0 0 30px #87ceeb); animation: pulse-logo 1.5s infinite; }
+        @keyframes pulse-logo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+        .neon-red { color: #ff4500; text-shadow: 0 0 15px #ff4500, 0 0 35px #ff4500; }
+        .neon-blue { color: #00bfff; text-shadow: 0 0 15px #00bfff, 0 0 35px #00bfff; font-size: 3rem; font-weight: 600; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 4.8rem; margin: 10px 0; }
+        h2 { font-size: 2.8rem !important; margin: 40px 0 30px; color: #00bfff; text-shadow: 0 0 20px #00bfff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px; }
+        .features { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin: 60px 0; }
+        .card { background: rgba(255,255,255,0.8); padding: 30px; border-radius: 20px; width: 300px; box-shadow: 0 0 20px rgba(0,191,255,0.5); transition: transform .3s; }
+        .card:hover { transform: translateY(-10px); }
+        .btn { background: linear-gradient(#ff4500, #ff6347); color: white; padding: 20px 50px; font-size: 1.5rem; border: none; border-radius: 50px; cursor: pointer; margin: 40px 0; box-shadow: 0 0 30px #ff4500; transition: all .3s; }
+        .btn:hover { transform: scale(1.08); box-shadow: 0 0 45px #ff4500; }
+        form { max-width: 500px; margin: 0 auto; }
+        label { color: #00bfff; font-size: 1.3rem; display: block; margin: 20px 0 10px; }
+        input { width: 100%; padding: 18px; margin: 10px 0; border-radius: 12px; border: none; background: rgba(255,255,255,0.9); color: #333; font-size: 1.1rem; }
+        footer { margin-top: 100px; padding: 40px; background: #add8e6; font-size: 1rem; color: #333; }
+        .fomo { font-size: 1.8rem; color: #ff4500; font-weight: bold; margin: 20px 0; }
+        .countdown { font-size: 2.5rem; color: #00bfff; text-shadow: 0 0 20px #00bfff; margin: 20px 0; }
+        @media (max-width:768px) { h1 { font-size: 3rem; } h2 { font-size: 2.2rem !important; } .features { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="PulseID.png" alt="Pulse ID Logo" class="logo">
+        <h1 class="neon-red">Pulse ID™</h1>
+        <h2 class="neon-blue">La App Exclusiva de 2026</h2>
+        <p class="container">Acceso limitado – únete ahora antes de que se agoten los spots.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="neon-blue">¿Por qué Pulse ID?</h2>
+        <div class="features">
+            <div class="card">
+                <h3 class="neon-blue">Gente real</h3>
+                <p>Verificación obligatoria con selfie + DNI. Adiós bots, hola conexiones auténticas.</p>
+            </div>
+        </div>
+
+        <h2 class="neon-red">¡Únete al waitlist exclusivo!</h2>
+        <p class="fomo">Spots restantes: 500/500 – ¡No te quedes fuera de la app más esperada de 2026!</p>
+        <p class="countdown">Lanzamiento en 2026 – Cuenta regresiva iniciada</p>
+
+        <form action="https://formspree.io/f/meoyzdgw" method="post">
+            <label for="email">Tu Email</label>
+            <input name="Email" id="email" type="email" placeholder="tuemail@ejemplo.com" required>
+            <label for="ciudad">Tu ciudad (opcional)</label>
+            <input type="text" name="ciudad" id="ciudad" placeholder="Madrid, Barcelona…">
+            <button type="submit" class="btn">¡Reservar mi spot exclusivo!</button>
+        </form>
+    </div>
+
+    <footer>
+        © 2025 Pulse ID – Todos los derechos reservados<br>
+        <a href="mailto:latidoappoficial@gmail.com" style="color:#333;">latidoappoficial@gmail.com</a> · +34 652 301 136
+    </footer>
+</body>
+</html>

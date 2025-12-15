@@ -21,17 +21,135 @@
             padding: 20px;
         }
         header {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://thumbs.dreamstime.com/b/single-vibrant-neon-heartbeat-pulses-across-dark-textured-background-vital-signs-neon-ecg-pulse-wave-dark-background-414475615.jpg');
-            background-size: cover;
-            background-position: center;
+            background: #000;
             text-align: center;
-            padding: 100px 20px;
+            padding: 80px 20px;
         }
-        header h1 { font-size: 3.5em; margin: 0; }
+        .logo-svg {
+            max-width: 600px;
+            width: 90%;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px #00FFFF) drop-shadow(0 0 40px #00FFFF);
+        }
+        .pulse-path {
+            stroke-dasharray: 10;
+            animation: pulse 4s linear infinite;
+        }
+        @keyframes pulse {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+        header h1 { font-size: 3.5em; margin: 20px 0; text-shadow: 0 0 20px #00FFFF; }
         header p { font-size: 1.5em; }
         .cta-button {
             display: inline-block;
             background: #00FFFF;
             color: #000;
             padding: 15px 30px;
-            border-radius: 50px
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+        section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        section:nth-child(even) { background: #111; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        .formula {
+            font-size: 1.4em;
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 600px;
+            border: 1px solid #00FFFF;
+        }
+        footer {
+            background: #000;
+            padding: 40px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <svg class="logo-svg" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="100" font-size="80" fill="#00FFFF" font-weight="bold" font-family="Arial">Pulse ID™</text>
+                <path class="pulse-path" d="M50 130 L100 130 L110 90 L120 170 L130 90 L140 130 L550 130" stroke="#00FFFF" stroke-width="6" fill="none"/>
+            </svg>
+            <h1>Tokeniza tu vitalidad real</h1>
+            <p>Cada latido cuenta. Para ti, para tu mascota, para el planeta.</p>
+            <a href="#waitlist" class="cta-button">¡Únete gratis al waitlist beta!</a>
+            <p style="margin-top:20px;">Primeros 10.000 usuarios reciben bonus inicial de puntos soulbound</p>
+        </div>
+    </header>
+
+    <section id="que-es">
+        <div class="container">
+            <h2>¿Qué es Pulse ID?</h2>
+            <p>Pulse ID es un sistema <strong>patentado</strong> que captura datos biométricos reales de pulso cardíaco (60-100 bpm, HRV >0.7) mediante wearables no invasivos, los tokeniza de forma certificada usando ZK-proofs en blockchains de bajo consumo energético (Polygon, Solana, Cardano, Tezos) y genera automáticamente recompensas no transferibles (puntos o NFTs soulbound).</p>
+            
+            <div class="formula">
+                recompensa = volumen_pulsos × factor_HRV × base_rate
+            </div>
+            
+            <p>Estas recompensas son canjeables por beneficios reales: descuentos en seguros de salud, consultas veterinarias, productos ecológicos y más.<br>
+            Parte de las recompensas (20-30%) se reinvierte automáticamente en proyectos verdes verificables (offset CO₂, reforestación).</p>
+            
+            <img src="https://wpassets.trainingpeaks.com/wp-content/uploads/2022/05/23104531/22012_What-is-Your-HRV-Telling-You-1024x849.jpg" alt="Gráfico HRV estable vs estresado">
+        </div>
+    </section>
+
+    <section id="como-funciona">
+        <div class="container">
+            <h2>Cómo funciona</h2>
+            <div class="grid">
+                <div>
+                    <img src="https://global.samsungdisplay.com/wp-content/uploads/2022/01/1214_SDC%EB%8F%84%EB%B9%84%EB%9D%BC-PPG.png" alt="Captura en tiempo real PPG">
+                    <h3>1. Captura en tiempo real</h3>
+                    <p>Sensores PPG/EKG en wearables (smartwatches, anillos, collares IoT).</p>
+                </div>
+                <div>
+                    <img src="https://miro.medium.com/1*bXWR05L1Tq8BrhEQwhyoXg.png" alt="Zero Knowledge Proofs">
+                    <h3>2. Procesamiento IA + Tokenización segura</h3>
+                    <p>CNN para compresión (&lt;50 bytes), hashing SHA-256 y ZK-proofs. Privacidad federada (RGPD).</p>
+                </div>
+                <div>
+                    <img src="https://i0.wp.com/www.ecomena.org/wp-content/uploads/2022/08/ecofriendly-cryptocurrency.jpg" alt="Blockchain sostenible">
+                    <h3>3. Generación de recompensas + Impacto verde</h3>
+                    <p>Smart contracts automáticos y reinversión trazable vía oráculos Chainlink.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dispositivos">
+        <div class="container">
+            <h2>Dispositivos compatibles</h2>
+            <div class="grid">
+                <div>
+                    <img src="https://www.hunterrehab.com.au/wp-content/uploads/2020/06/Apple-watch-HR-main-1-1024x614.jpg" alt="Smartwatch monitoreo cardíaco">
+                    <p>Smartwatches</p>
+                </div>
+                <div>
+                    <img src="https://m.media-amazon.com/images/I/61FS1+mDc+L._AC_UF894,1000_QL80_.jpg" alt="Anillo inteligente Oura">
+                    <p>Anillos inteligentes</p>
+                </div>
+                <div>
+                    <img src="https://helios-i.mashable.com/imagery/articles/04OwMwkK5YuFL5tO9YCOkd9/images-3.fill.size_2000x1318.v1642781730.jpg" alt="Collar inteligente para mascotas

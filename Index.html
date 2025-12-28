@@ -3,79 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - Pulse ID</title>
+    <title>Mi Página Personal</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f8f0; color: #333; margin: 0; padding: 0; line-height: 1.6; }
-        header { background: #28a745; color: white; padding: 40px; text-align: center; }
-        main { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #00BFFF; }
-        form { margin: 20px 0; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background: #28a745; color: white; border: none; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
-        #perfil { display: none; }
-        .msg { color: #28a745; font-weight: bold; }
-        @media (max-width: 768px) { main { padding: 10px; } }
+        /* Reset básico y variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --text: #333;
+            --bg: #f8f9fa;
+            --accent: #ff6b6b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        section {
+            margin-bottom: 80px;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary);
+        }
+        .about, .contact {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        }
+        footer {
+            background: var(--text);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Pulse ID - Mi Perfil Personal</h1>
-        <p>Tokenización biométrica sostenible</p>
+        <h1>¡Hola! Soy [Tu Nombre]</h1>
+        <p>Desarrollador | Diseñador | Creativo</p>
     </header>
 
-    <main>
-        <section id="login">
-            <h2>Inicia Sesión o Regístrate</h2>
-            <form>
-                <input type="email" id="email" placeholder="tu@email.com" required>
-                <input type="password" id="password" placeholder="Contraseña" required>
-                <button type="button" onclick="loginDemo()">Entrar / Registrarse (Demo)</button>
-            </form>
-            <p class="msg" id="mensaje"></p>
+    <div class="container">
+        <section class="about">
+            <h2>Sobre mí</h2>
+            <p>Soy una persona apasionada por la tecnología y el diseño. Me encanta crear soluciones digitales que faciliten la vida de las personas. Aquí puedes conocer un poco más sobre mis proyectos y habilidades.</p>
+            <a href="#contact" class="btn">Contáctame</a>
         </section>
 
-        <section id="perfil">
-            <h2>Bienvenido, <span id="usuario"></span></h2>
-            <p><strong>Wearable:</strong> <input type="text" id="wearable" placeholder="Ej: Oura Ring"></p>
-            <p><strong>HRV Promedio:</strong> <input type="number" step="0.01" id="hrv" placeholder="Ej: 0.75"></p>
-            <p><strong>Preferencias km0:</strong> <textarea id="prefs" placeholder="Comercios locales favoritos..."></textarea></p>
-            <button onclick="guardarDemo()">Guardar Datos</button>
-            <p class="msg" id="guardado"></p>
-            <p><strong>Puntos acumulados:</strong> <span id="puntos">0</span></p>
-            <button onclick="logoutDemo()">Cerrar Sesión</button>
+        <section class="contact" id="contact">
+            <h2>Contacto</h2>
+            <p>Puedes escribirme a: <strong>tuemail@ejemplo.com</strong></p>
+            <p>O seguirme en mis redes sociales.</p>
         </section>
-    </main>
+    </div>
 
-    <script>
-        // Demo simple (sin backend real, solo localStorage para prueba)
-        function loginDemo() {
-            const email = document.getElementById('email').value;
-            if (email) {
-                document.getElementById('usuario').textContent = email;
-                document.getElementById('login').style.display = 'none';
-                document.getElementById('perfil').style.display = 'block';
-                document.getElementById('mensaje').textContent = '¡Sesión iniciada (demo)!';
-                cargarDatos();
-            }
-        }
-
-        function cargarDatos() {
-            const puntos = localStorage.getItem('puntos') || 0;
-            document.getElementById('puntos').textContent = puntos;
-        }
-
-        function guardarDemo() {
-            let puntos = parseInt(localStorage.getItem('puntos') || 0) + 20;
-            localStorage.setItem('puntos', puntos);
-            document.getElementById('guardado').textContent = 'Datos guardados +20 puntos';
-            document.getElementById('puntos').textContent = puntos;
-        }
-
-        function logoutDemo() {
-            document.getElementById('login').style.display = 'block';
-            document.getElementById('perfil').style.display = 'none';
-        }
-    </script>
+    <footer>
+        <p>&copy; 2025 [Tu Nombre]. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

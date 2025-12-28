@@ -3,107 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Personal</title>
+    <title>Mi Sesión Activa</title>
     <style>
-        /* Reset básico y variables */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* Estilo moderno y limpio */
         :root {
-            --primary: #4a6fa5;
-            --secondary: #166088;
-            --text: #333;
-            --bg: #f8f9fa;
-            --accent: #ff6b6b;
+            --primary: #6366f1;     /* Indigo */
+            --primary-dark: #4f46e5;
+            --text: #1e293b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --accent: #10b981;      /* Verde esmeralda */
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #e0e7ff, #fde68a);
             color: var(--text);
-            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-        }
-        header p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-        }
+
         .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-        section {
-            margin-bottom: 80px;
-        }
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            background: var(--card);
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
             color: var(--primary);
         }
-        .about, .contact {
-            text-align: center;
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #64748b;
         }
-        .btn {
-            display: inline-block;
+
+        .timer {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            letter-spacing: 4px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .label {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-top: 20px;
+        }
+
+        .reset-btn {
             background: var(--accent);
             color: white;
+            border: none;
             padding: 12px 30px;
+            font-size: 1.1rem;
             border-radius: 50px;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: 0.3s;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
         }
-        .btn:hover {
+
+        .reset-btn:hover {
+            background: #059669;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
+
         footer {
-            background: var(--text);
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>¡Hola! Soy [Tu Nombre]</h1>
-        <p>Desarrollador | Diseñador | Creativo</p>
-    </header>
-
     <div class="container">
-        <section class="about">
-            <h2>Sobre mí</h2>
-            <p>Soy una persona apasionada por la tecnología y el diseño. Me encanta crear soluciones digitales que faciliten la vida de las personas. Aquí puedes conocer un poco más sobre mis proyectos y habilidades.</p>
-            <a href="#contact" class="btn">Contáctame</a>
-        </section>
+        <h1>¡Bienvenido!</h1>
+        <p>Tu sesión ha comenzado</p>
 
-        <section class="contact" id="contact">
-            <h2>Contacto</h2>
-            <p>Puedes escribirme a: <strong>tuemail@ejemplo.com</strong></p>
-            <p>O seguirme en mis redes sociales.</p>
-        </section>
+        <div class="timer" id="timer">00:00:00</div>
+        <div class="label">Tiempo transcurrido</div>
+
+        <button class="reset-btn" onclick="resetTimer()">Reiniciar temporizador</button>
+
+        <footer>
+            Página cargada el <span id="start-date"></span>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2025 [Tu Nombre]. Todos los derechos reservados.</p>
-    </footer>
+    <script>
+        // Elementos del DOM
+        const timerDisplay = document.getElementById('timer');
+        const startDateDisplay = document.getElementById('start-date');
+
+        // Fecha y hora de inicio (cuando se carga la página)
+        const startTime = new Date();
+        startDateDisplay.textContent = startTime.toLocaleString('es-ES');
+
+        let seconds = 0;
+        let timerInterval;
+
+        // Función para formatear el tiempo
+        function formatTime(totalSeconds) {
+            const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(totalSeconds % 60).padStart(2, '0');
+            return `\( {hrs}: \){mins}:${secs}`;
+        }
+
+        // Función principal del temporizador
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerDisplay.textContent = formatTime(seconds);
+            }, 1000);
+        }
+
+        // Reiniciar el temporizador
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            timerDisplay.textContent = '00:00:00';
+            startTime = new Date();
+            startDateDisplay.textContent = startTime.toLocaleString('es-ES');
+            startTimer();
+        }
+
+        // Iniciar el temporizador automáticamente al cargar la página
+        startTimer();
+    </script>
 </body>
 </html>

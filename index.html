@@ -1,81 +1,548 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - Pulse ID</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f0f8f0; color: #333; margin: 0; padding: 0; line-height: 1.6; }
-        header { background: #28a745; color: white; padding: 40px; text-align: center; }
-        main { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #00BFFF; }
-        form { margin: 20px 0; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background: #28a745; color: white; border: none; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
-        #perfil { display: none; }
-        .msg { color: #28a745; font-weight: bold; }
-        @media (max-width: 768px) { main { padding: 10px; } }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Pulse ID — Identidad digital viva basada en señales fisiológicas reales. Novedades e investigaciones (Fase 1)." />
+  <title>Pulse ID — Novedades e Investigaciones</title>
+
+  <style>
+    :root{
+      --bg:#05070a;
+      --panel:#0b1118;
+      --panel2:#070c12;
+      --text:#e8eef7;
+      --muted:#a7b3c7;
+      --line:rgba(232,238,247,.12);
+      --accent:#39ffb6; /* verde pulso */
+      --accent2:#7aa7ff; /* azul técnico */
+      --warn:#ffd37a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius2:22px;
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 70% -10%, rgba(57,255,182,.14), transparent 60%),
+        radial-gradient(900px 600px at 20% 10%, rgba(122,167,255,.14), transparent 55%),
+        radial-gradient(700px 500px at 90% 40%, rgba(57,255,182,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), #020408 70%, #010203);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:22px 18px 56px}
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(5,7,10,.82), rgba(5,7,10,.55));
+      border-bottom:1px solid var(--line);
+    }
+    .topbar .wrap{padding:14px 18px}
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none;
+    }
+    .mark{
+      width:44px; height:44px; border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(57,255,182,.35), transparent 55%),
+        radial-gradient(circle at 75% 65%, rgba(122,167,255,.35), transparent 60%),
+        linear-gradient(140deg, rgba(57,255,182,.15), rgba(122,167,255,.10));
+      border:1px solid rgba(232,238,247,.12);
+      box-shadow: 0 12px 42px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .mark:before{
+      content:"";
+      position:absolute; inset:-30%;
+      background: conic-gradient(from 180deg, rgba(57,255,182,.0), rgba(57,255,182,.35), rgba(122,167,255,.0));
+      animation: spin 7s linear infinite;
+      opacity:.7;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .brand h1{
+      font-size:16px; line-height:1.2; margin:0;
+      letter-spacing:.2px;
+    }
+    .brand small{display:block; color:var(--muted); font-weight:500; margin-top:2px}
+    nav{
+      margin-left:auto;
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .navlink{
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(232,238,247,.10);
+      background: rgba(11,17,24,.45);
+      color:var(--text);
+      font-size:13px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .navlink:hover{transform: translateY(-1px); border-color: rgba(57,255,182,.30); background: rgba(11,17,24,.65)}
+    .navlink.active{border-color: rgba(57,255,182,.40)}
+    .bar{
+      display:flex; align-items:center; gap:14px;
+    }
+
+    header.hero{
+      padding:34px 0 18px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .heroGrid{grid-template-columns: 1fr; }
+      nav{display:none}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(11,17,24,.82), rgba(7,12,18,.76));
+      border:1px solid rgba(232,238,247,.12);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card .inner{padding:20px 20px 18px}
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      color: rgba(232,238,247,.78);
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(232,238,247,.12);
+      background: rgba(5,7,10,.55);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(57,255,182,.65);
+    }
+    .hero h2{
+      margin:14px 0 8px;
+      font-size:38px;
+      letter-spacing:-.6px;
+      line-height:1.05;
+    }
+    .hero p{
+      margin:0 0 14px;
+      color: var(--muted);
+      font-size:15.5px;
+      line-height:1.55;
+      max-width: 64ch;
+    }
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      text-decoration:none;
+      font-weight:650;
+      font-size:13.5px;
+      border:1px solid rgba(232,238,247,.12);
+      background: rgba(11,17,24,.55);
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(57,255,182,.35); background: rgba(11,17,24,.75)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(57,255,182,.22), rgba(122,167,255,.16));
+      border-color: rgba(57,255,182,.28);
+    }
+    .btn.primary:hover{border-color: rgba(57,255,182,.48)}
+    .meta{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+      height:100%;
+    }
+    .pill{
+      padding:16px 16px 14px;
+      border-radius: var(--radius);
+      border:1px solid rgba(232,238,247,.12);
+      background: rgba(5,7,10,.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .pill h3{margin:0; font-size:13px; color:rgba(232,238,247,.92)}
+    .pill p{margin:8px 0 0; color:var(--muted); font-size:13.5px; line-height:1.45}
+    .tag{
+      display:inline-flex;
+      margin-top:12px;
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(232,238,247,.12);
+      color: rgba(232,238,247,.82);
+      background: rgba(11,17,24,.35);
+    }
+    .tag.green{border-color: rgba(57,255,182,.22)}
+    .tag.blue{border-color: rgba(122,167,255,.22)}
+    .tag.warn{border-color: rgba(255,211,122,.22)}
+    .section{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
+    @media (max-width: 900px){
+      .section{grid-template-columns: 1fr}
+      .meta{grid-template-columns: 1fr}
+    }
+    .section h3{
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:.1px;
+    }
+    .muted{color:var(--muted)}
+    ul.clean{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.55}
+    ul.clean li{margin:8px 0}
+    .line{height:1px; background: var(--line); margin:14px 0}
+    .timeline{
+      display:flex; flex-direction:column; gap:12px;
+      margin-top:10px;
+    }
+    .entry{
+      display:flex; gap:12px;
+      padding:14px 14px;
+      border-radius: var(--radius);
+      border:1px solid rgba(232,238,247,.12);
+      background: rgba(5,7,10,.40);
+    }
+    .date{
+      min-width: 104px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(232,238,247,.78);
+    }
+    .entry b{display:block; font-size:13.8px; margin-bottom:6px}
+    .entry p{margin:0; color:var(--muted); line-height:1.5; font-size:13.5px}
+    .foot{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      color: rgba(232,238,247,.68);
+      font-size:12.5px;
+    }
+    .mono{font-family:var(--mono)}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(232,238,247,.12);
+      background: rgba(11,17,24,.35);
+      color: rgba(232,238,247,.78);
+      font-size:12px;
+      text-decoration:none;
+    }
+    .badge:hover{border-color: rgba(57,255,182,.35)}
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Pulse ID - Mi Perfil Personal</h1>
-        <p>Tokenización biométrica sostenible</p>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="bar">
+        <a class="brand" href="#top" aria-label="Pulse ID — Inicio">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <h1>Pulse ID</h1>
+            <small>Identidad digital viva · Fase 1</small>
+          </div>
+        </a>
+
+        <nav aria-label="Navegación">
+          <a class="navlink" href="#estado">Estado</a>
+          <a class="navlink active" href="#novedades">Novedades</a>
+          <a class="navlink" href="#investigacion">Investigación</a>
+          <a class="navlink" href="#transparencia">Transparencia</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <main id="top" class="wrap">
+    <header class="hero">
+      <div class="heroGrid">
+        <section class="card" aria-labelledby="hero-title">
+          <div class="inner">
+            <span class="kicker"><span class="dot" aria-hidden="true"></span><span class="mono">NOVEDADES E INVESTIGACIONES</span></span>
+            <h2 id="hero-title">Rastreo público de progreso, con rigor.</h2>
+            <p>
+              Este apartado documenta el estado del proyecto durante la <b>Fase 1</b>: definición conceptual, alineación estratégica y protección del núcleo.
+              En esta fase no hay despliegue comercial ni producto operativo; publicamos avances de investigación y decisiones de diseño a nivel conceptual.
+            </p>
+
+            <div class="actions">
+              <a class="btn primary" href="#novedades">Ver novedades</a>
+              <a class="btn" href="#investigacion">Ver líneas de investigación</a>
+              <a class="btn" href="#transparencia">Política de transparencia</a>
+            </div>
+          </div>
+        </section>
+
+        <aside class="meta" aria-label="Resumen de fase">
+          <div class="pill">
+            <h3>Fase del proyecto</h3>
+            <p>Fase 1 — Definición, protección y alineación.</p>
+            <span class="tag green">Identidad viva</span>
+          </div>
+          <div class="pill">
+            <h3>Enfoque</h3>
+            <p>Señales fisiológicas reales como base de verificación.</p>
+            <span class="tag blue">Arquitectura</span>
+          </div>
+          <div class="pill">
+            <h3>POC</h3>
+            <p>POC conceptual definido (no implementado).</p>
+            <span class="tag warn">Sin producto</span>
+          </div>
+          <div class="pill">
+            <h3>Publicaciones</h3>
+            <p>Actualizaciones fechadas, trazables y sin promesas.</p>
+            <span class="tag">Log de cambios</span>
+          </div>
+        </aside>
+      </div>
     </header>
 
-    <main>
-        <section id="login">
-            <h2>Inicia Sesión o Regístrate</h2>
-            <form>
-                <input type="email" id="email" placeholder="tu@email.com" required>
-                <input type="password" id="password" placeholder="Contraseña" required>
-                <button type="button" onclick="loginDemo()">Entrar / Registrarse (Demo)</button>
-            </form>
-            <p class="msg" id="mensaje"></p>
-        </section>
+    <section id="estado" class="section" aria-label="Estado del proyecto">
+      <article class="card">
+        <div class="inner">
+          <h3>Estado actual</h3>
+          <p class="muted">
+            Pulse ID se encuentra en <b>Fase 1</b>. La actividad se orienta a investigación, análisis técnico y validación conceptual.
+            Este repositorio/landing no contiene un producto funcional, sino documentación de progreso.
+          </p>
+          <div class="line"></div>
+          <h3>Qué sí hacemos en Fase 1</h3>
+          <ul class="clean">
+            <li>Definición del núcleo conceptual y técnico de identidad digital viva.</li>
+            <li>Delimitación de alcance y coherencia entre narrativa, marca y protección.</li>
+            <li>Exploración de arquitecturas posibles (smartphone + wearable) a nivel conceptual.</li>
+            <li>Registro de decisiones y avances mediante entradas fechadas.</li>
+          </ul>
+        </div>
+      </article>
 
-        <section id="perfil">
-            <h2>Bienvenido, <span id="usuario"></span></h2>
-            <p><strong>Wearable:</strong> <input type="text" id="wearable" placeholder="Ej: Oura Ring"></p>
-            <p><strong>HRV Promedio:</strong> <input type="number" step="0.01" id="hrv" placeholder="Ej: 0.75"></p>
-            <p><strong>Preferencias km0:</strong> <textarea id="prefs" placeholder="Comercios locales favoritos..."></textarea></p>
-            <button onclick="guardarDemo()">Guardar Datos</button>
-            <p class="msg" id="guardado"></p>
-            <p><strong>Puntos acumulados:</strong> <span id="puntos">0</span></p>
-            <button onclick="logoutDemo()">Cerrar Sesión</button>
-        </section>
-    </main>
+      <article class="card">
+        <div class="inner">
+          <h3>Qué no hacemos en Fase 1</h3>
+          <p class="muted">
+            Para evitar confusión: no publicamos claims de producto, ni métricas, ni pruebas clínicas, ni promesas de rendimiento.
+          </p>
+          <div class="line"></div>
+          <ul class="clean">
+            <li>No hay app operativa ni servicio desplegado.</li>
+            <li>No hay diagnóstico médico ni finalidad sanitaria.</li>
+            <li>No hay compromiso de fechas o funcionalidades futuras.</li>
+            <li>No hay publicación de datos personales ni señales fisiológicas reales.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
 
-    <script>
-        // Demo simple (sin backend real, solo localStorage para prueba)
-        function loginDemo() {
-            const email = document.getElementById('email').value;
-            if (email) {
-                document.getElementById('usuario').textContent = email;
-                document.getElementById('login').style.display = 'none';
-                document.getElementById('perfil').style.display = 'block';
-                document.getElementById('mensaje').textContent = '¡Sesión iniciada (demo)!';
-                cargarDatos();
-            }
+    <section id="novedades" class="section" aria-label="Novedades">
+      <article class="card">
+        <div class="inner">
+          <h3>Novedades (registro público)</h3>
+          <p class="muted">
+            Entradas breves, fechadas y verificables. Sustituye o amplía estas entradas conforme avances.
+          </p>
+
+          <div class="timeline" role="list">
+            <div class="entry" role="listitem">
+              <div class="date">2025-12-31</div>
+              <div>
+                <b>Fase 1 cerrada (definición y alineación)</b>
+                <p>
+                  Se consolida la definición oficial de Pulse ID en Fase 1 y se establece el marco de publicación de novedades e investigación.
+                  A partir de este punto, cualquier actividad de implementación se considera Fase 2.
+                </p>
+              </div>
+            </div>
+
+            <div class="entry" role="listitem">
+              <div class="date">2025-12-30</div>
+              <div>
+                <b>Estructura de web y repositorio</b>
+                <p>
+                  Se prepara la base pública del proyecto (landing + documentación) para mantener trazabilidad y coherencia del mensaje.
+                </p>
+              </div>
+            </div>
+
+            <div class="entry" role="listitem">
+              <div class="date">2025-12-29</div>
+              <div>
+                <b>Ajustes de alcance: marca y coherencia conceptual</b>
+                <p>
+                  Revisión de consistencia entre marca, listado de productos/servicios y núcleo técnico para evitar ampliaciones indebidas y mantener alineación.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="line"></div>
+          <p class="muted mono">
+            Sugerencia: mantén las entradas cortas (3–5 líneas) y evita promesas. Publica “lo que está decidido”, no “lo que se desea”.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <h3>Cómo publicar una nueva entrada</h3>
+          <p class="muted">
+            Formato recomendado para cada actualización:
+          </p>
+          <ul class="clean">
+            <li><span class="mono">AAAA-MM-DD</span> — título corto (máx. 8 palabras)</li>
+            <li>2–4 frases: qué se ha hecho y por qué importa.</li>
+            <li>Sin cifras no verificables, sin claims de rendimiento, sin fechas de lanzamiento.</li>
+          </ul>
+
+          <div class="line"></div>
+          <p class="muted">
+            Si quieres, puedo generarte una plantilla automática para GitHub (README + changelog) con este mismo tono.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section id="investigacion" class="section" aria-label="Investigación">
+      <article class="card">
+        <div class="inner">
+          <h3>Líneas de investigación</h3>
+          <p class="muted">
+            Estas líneas describen el foco conceptual y técnico del proyecto durante Fase 1.
+          </p>
+          <ul class="clean">
+            <li><b>Identidad digital viva:</b> modelos de identidad no estática basada en señales fisiológicas reales.</li>
+            <li><b>Verificación de presencia:</b> mecanismos que reduzcan suplantación y uso indebido de credenciales.</li>
+            <li><b>Continuidad y no transferibilidad:</b> identidad ligada al individuo (no a un secreto compartible).</li>
+            <li><b>Arquitecturas de integración:</b> smartphone + wearable como canales de captura y verificación (conceptual).</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <h3>POC conceptual (no implementado)</h3>
+          <p class="muted">
+            En Fase 1, el POC es una descripción técnica razonable de cómo podría funcionar el sistema,
+            sin implicar que exista una implementación ni resultados experimentales.
+          </p>
+          <div class="line"></div>
+          <ul class="clean">
+            <li>Captura de señales fisiológicas mediante dispositivos personales.</li>
+            <li>Procesamiento para generar indicadores de identidad dinámica (no credenciales).</li>
+            <li>Uso en flujos de autenticación/verificación/control de acceso digital.</li>
+            <li>Sin almacenamiento de datos sensibles en público; sin exposición de señales reales.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section id="transparencia" class="section" aria-label="Transparencia">
+      <article class="card">
+        <div class="inner">
+          <h3>Política de transparencia</h3>
+          <p class="muted">
+            Este apartado existe para publicar avances con rigor y evitar interpretaciones erróneas.
+          </p>
+          <ul class="clean">
+            <li>Se publican únicamente avances conceptuales, decisiones y estructura.</li>
+            <li>No se publican datos personales, señales fisiológicas reales ni información sensible.</li>
+            <li>No se publican promesas de fechas, rendimientos, ni afirmaciones no verificadas.</li>
+            <li>Se indicará explícitamente cualquier cambio de fase.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <h3>Contacto</h3>
+          <p class="muted">
+            Si vas a publicar esto en GitHub Pages, lo habitual es añadir un canal de contacto o un enlace al dominio principal.
+          </p>
+          <div class="line"></div>
+          <p class="muted">
+            <b>Opciones recomendadas:</b>
+          </p>
+          <ul class="clean">
+            <li>Un correo genérico del dominio (ej.: <span class="mono">contacto@tudominio</span>).</li>
+            <li>Un formulario simple (si lo añades en otra página).</li>
+            <li>Enlace al repositorio y a un <span class="mono">README</span> con normas de contribución.</li>
+          </ul>
+          <p class="muted mono">
+            Nota: reemplaza los datos de contacto antes de publicar.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <footer class="foot">
+      <div>
+        <span class="mono">Pulse ID</span> · Documentación pública · <span class="muted">Fase 1</span>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <a class="badge" href="#top">Volver arriba</a>
+        <a class="badge" href="#novedades">Novedades</a>
+        <a class="badge" href="#investigacion">Investigación</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Resaltado básico de navegación según el scroll (sin dependencias).
+    (function(){
+      const links = Array.from(document.querySelectorAll("nav .navlink"));
+      const sections = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+
+      const setActive = (id) => {
+        links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+      };
+
+      const onScroll = () => {
+        const y = window.scrollY + 120;
+        let current = sections[0]?.id || "estado";
+        for (const s of sections){
+          if (s.offsetTop <= y) current = s.id;
         }
+        setActive(current);
+      };
 
-        function cargarDatos() {
-            const puntos = localStorage.getItem('puntos') || 0;
-            document.getElementById('puntos').textContent = puntos;
-        }
-
-        function guardarDemo() {
-            let puntos = parseInt(localStorage.getItem('puntos') || 0) + 20;
-            localStorage.setItem('puntos', puntos);
-            document.getElementById('guardado').textContent = 'Datos guardados +20 puntos';
-            document.getElementById('puntos').textContent = puntos;
-        }
-
-        function logoutDemo() {
-            document.getElementById('login').style.display = 'block';
-            document.getElementById('perfil').style.display = 'none';
-        }
-    </script>
+      window.addEventListener("scroll", onScroll, {passive:true});
+      onScroll();
+    })();
+  </script>
 </body>
 </html>
